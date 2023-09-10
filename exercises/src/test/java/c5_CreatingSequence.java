@@ -39,7 +39,7 @@ public class c5_CreatingSequence {
     @Test
     public void value_I_already_have_mono() {
         String valueIAlreadyHave = "value";
-        Mono<String> valueIAlreadyHaveMono = null; //todo: change this line only
+        Mono<String> valueIAlreadyHaveMono = Mono.fromSupplier(()-> valueIAlreadyHave); //todo: change this line only
 
         StepVerifier.create(valueIAlreadyHaveMono)
                     .expectNext("value")
@@ -52,7 +52,7 @@ public class c5_CreatingSequence {
     @Test
     public void potentially_null_mono() {
         String potentiallyNull = null;
-        Mono<String> potentiallyNullMono = null; //todo change this line only
+        Mono<String> potentiallyNullMono = Mono.justOrEmpty(Optional.ofNullable(potentiallyNull)); //todo change this line only
 
         StepVerifier.create(potentiallyNullMono)
                     .verifyComplete();
@@ -64,7 +64,7 @@ public class c5_CreatingSequence {
     @Test
     public void optional_value() {
         Optional<String> optionalValue = Optional.of("optional");
-        Mono<String> optionalMono = null; //todo: change this line only
+        Mono<String> optionalMono = Mono.justOrEmpty(optionalValue); //todo: change this line only
 
         StepVerifier.create(optionalMono)
                     .expectNext("optional")
@@ -82,7 +82,7 @@ public class c5_CreatingSequence {
             return callableCounter.incrementAndGet();
         };
 
-        Mono<Integer> callableCounterMono = null; //todo: change this line only
+        Mono<Integer> callableCounterMono = Mono.fromCallable(callable); //todo: change this line only
 
         StepVerifier.create(callableCounterMono.repeat(2))
                     .expectNext(1, 2, 3)
